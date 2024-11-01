@@ -24,7 +24,7 @@ query = ''
 
 if __name__ == "__main__":
     while True:
-        query = input("Укажите имя документа для парсина или напишие exit для выхода: ")
+        query = input("Укажите имя документа для парсинга или напишие exit для выхода: ")
         if (query == "exit"):
             break
         else:
