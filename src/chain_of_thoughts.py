@@ -69,8 +69,11 @@ class Chain_of_thoughts():
         """
         Ищем ответ в текстовых блоках
         """
-        filter_list = [{"gost_num": str(self.doc_num)}, {"type": "paragraph"}]
-        db_answer = self.query_to_db(question, filter_list)
+        if self.doc_num:
+            filter_list = [{"gost_num": str(self.doc_num)}, {"type": "paragraph"}]
+        else:
+            filter_list = [{"type": "paragraph"}]
+        db_answer = self.query_to_db(question, filter_list, n_results=40)
         db_answer = '\n'.join(db_answer['documents'][0])
         prompt = f"""Ты исследователь текстов, который абсолютно точно соблюдает инструкции.
 Представлен следующий запрос о поиске информации в базе данных:

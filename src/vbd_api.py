@@ -44,6 +44,7 @@ class Chromadb_api():
             n_results=n_results
         )
         if len(results['ids'][0]):
+            #print("Выгрузка из БД: ", results)
             return results
         else:            
             results = self.query_to_db(question, filter_list[1:])
