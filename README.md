@@ -1,3 +1,7 @@
+<p align="center">
+<img src = './docs/logo.jpg' alt = 'logo' align='center'/>
+</p>
+
 # ХАКАТОН от<br>[ОМК-ИТ](https://habr.com/ru/companies/omk-it/articles/850434/?telegram_habr)
 Цель проекта: создание решения на основе большой языковой модели для работы с нормативно-техническими документами (ГОСТ), их анализа и поиска информации по пользовательскому запросу.
 
@@ -50,6 +54,10 @@
 
 На период проведения Хакатона приложение развёрнуто в виде [Телеграм-бота](https://t.me/RadostTrudaMetalloInfoBot). В боте можно ввести интересующий вопрос по двум ГОСТам (которые были обозначены в правилах Хакатона) и получить ответ.
 
+<p align="center">
+<img src = './docs/tg_example.png' alt = 'tg' align='center'/>
+</p>
+
 Репозиторий с ботом и всеми необходимыми для его работы файлами (БД и т.д.) расположено [здесь](https://github.com/chetverovod/MetalloInfoBot).
 
 
@@ -67,7 +75,11 @@ $ cd MetalloHakaton && pip install -r requirements.txt
 ```
 $ python3 main.py
 ```
-На странице проекта расположен файл Jupyter notebook с [с возможностью отправки запросов](main_test.ipynb), в котором имеется пример вызова метода ответов на вопросы по ГОСТу. 
+На странице проекта расположен файл Jupyter notebook с [с возможностью отправки запросов](main_test.ipynb), в котором имеется пример вызова метода ответов на вопросы по ГОСТу.
+
+<p align="center">
+<img src = './docs/standalone_example.png' alt = 'sa' align='center'/>
+</p>
 
 ## Подробное описание структуры репозитория
 
