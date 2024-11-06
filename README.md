@@ -1,5 +1,5 @@
 <p align="center">
-<img src = './docs/logo.jpg' alt = 'logo' align='center'/>
+<img src = './docs/logo.png' alt = 'logo' align='center'/>
 </p>
 
 # ХАКАТОН от<br>[ОМК-ИТ](https://habr.com/ru/companies/omk-it/articles/850434/?telegram_habr)
