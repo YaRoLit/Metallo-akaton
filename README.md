@@ -104,7 +104,8 @@ $ python3 main.py
 
 ## Команда
 <p align="center">
-<img src = './images/logo.png' alt = 'Team logo' align='center'/>
+<img src = './docs/Igor.jpg' alt = 'tg' align='center'/>
+<img src = './docs/Yaro.jpg' alt = 'tg' align='center'/>
 </p>
 
 * Игорь Пластов ([chetverovod](https://github.com/chetverovod)): создание ТГ-бота, обработка текстовых данных, создание векторной базы данных, эксперименты с LLM, финальная сборка проекта. 
