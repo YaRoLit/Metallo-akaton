@@ -5,9 +5,10 @@ class GOST_parser():
     def __init__(self, gost_fname: str, db_adder, llm_request):
         self.db_adder = db_adder
         self.llm_request = llm_request
-        gost = docx.Document(gost_fname)
-        #self.parse_text(gost)
-        self.parse_table(gost)
+        self.gost = docx.Document(gost_fname)
+        self.gost_num = self.search_doc_num(self.gost)
+        self.parse_table(self.gost)
+        self.parse_text(self.gost)
 
 
     def search_doc_num(self, gost: docx.Document) -> None:
@@ -56,27 +57,36 @@ class GOST_parser():
         text = self._rm_double_rows(text)
         text = self._rm_extra_spaces(text)
         prompt = f"""Ты исследователь текстов, который абсолютно точно соблюдает инструкции.
-Представлена часть текста нормативно-технического документа:
+Имеется текст нормативно-технического документа:
 {text}
-Необходимо разделить текст на логические блоки.
-В качестве разделителя использовать набор символов '----------'.
-В ответе вывести разделенный текст. 
-Никаких дополнительных комментариев в ответе выводить не нужно, только исходный текст с разделителем.
-Пример ответа:
-----------
-Это фрагмент текста - логический блок 1.
-----------
-А это фрагмент текста, представляющий логический блок 2.
-----------"""
+Этот текст необходимо разбить на отдельные фрагменты.
+Фрагменты должны быть как можно меньшего размера, но при этом не должен теряться их смысл. 
+В выводе напечатай этот текст, разделенный на фрагменты.
+Для разделения фрагменты используй строку '----'.
+В выводе должен быть только текст без комментариев. Пример ответа:
+----
+3.23 высокий отпуск: Технологический процесс нагрева проката ниже температуры , выдержки и охлаждения его с заданной скоростью или на спокойном воздухе.
+----
+3.24 механическое старение: Процесс искусственного старения в соответствии с ГОСТ 7268.
+----"""
         answer = self.llm_request(prompt)
-        print(answer)
+        text = answer.split("----")
+        for idx, block in enumerate(text):
+            self.db_adder(
+                doc_text = block,
+                doc_meta = {
+                    'gost_num': self.gost_num[0],
+                    'gost_year': self.gost_num[1],
+                    'type': 'text',                   
+                    },
+                    ids=f'gost{self.gost_num[0]}_block{idx}'
+            )
 
 
     def parse_table(self, gost: docx.Document) -> None:
         """
         Парсинг таблиц из docx документа
         """
-        gost_num = self.search_doc_num(gost)
         table_name = False
         for block in gost.iter_inner_content():
             if (type(block) == docx.text.paragraph.Paragraph):
@@ -100,13 +110,13 @@ class GOST_parser():
                 self.db_adder(
                     doc_text = table_meta,
                     doc_meta = {
-                        'gost_num': gost_num[0],
-                        'gost_year': gost_num[1],
+                        'gost_num': self.gost_num[0],
+                        'gost_year': self.gost_num[1],
                         'type': 'table_meta',
                         'table_name': table_name,
                         'table_num': table_num                        
                     },
-                    ids=f'gost{gost_num[0]}_table_{table_num}_meta'
+                    ids=f'gost{self.gost_num[0]}_table_{table_num}_meta'
                 )
                 table_name = False
 
@@ -144,7 +154,6 @@ class GOST_parser():
 "Химические элементы": ["C", "S", "N"],
 }}"""
         answer = self.llm_request(prompt)
-        print(answer)
         return answer
 
 
